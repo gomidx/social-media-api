@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FollowController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,11 +17,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/token', [AuthController::class, 'generateToken'])->name('auth.generateToken');
-Route::post('/user', [UserController::class, 'store'])->name('user.store');
-Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
+
+Route::prefix('/user')->group(function () {
+    Route::post('/', [UserController::class, 'store'])->name('user.store');
+    Route::get('/{id}', [UserController::class, 'show'])->name('user.show');
+});
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
+    Route::prefix('/user')->group(function () {
+        Route::get('/{id}/followers', [FollowController::class, 'getFollowers'])->name('follow.getFollowers');
+        Route::get('/{id}/followed', [FollowController::class, 'getFollowed'])->name('follow.getFollowed');
+    });
+
+    Route::delete('/follower/{id}/remove', [FollowController::class, 'removeFollower'])->name('follow.removeFollower');
+    Route::delete('/followed/{id}/remove', [FollowController::class, 'stopFollowing'])->name('follow.stopFollowing');
+
     Route::apiResource('user', UserController::class)->except(['store', 'show']);
+    Route::apiResource('follow', FollowController::class);
 });
