@@ -16,6 +16,11 @@ trait Http
         return $this->buildResponse(Response::HTTP_CREATED, $data);
     }
 
+    private function badRequest(mixed $data): array
+    {
+        return $this->buildResponse(Response::HTTP_BAD_REQUEST, $data);
+    }
+
     private function forbidden(mixed $data): array
     {
         return $this->buildResponse(Response::HTTP_FORBIDDEN, $data);
