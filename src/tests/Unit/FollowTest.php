@@ -39,7 +39,7 @@ class FollowTest extends TestCase
 
         $result = $this->followService->createFollow($followDetails);
 
-        $this->assertTrue($result['code'] === Response::HTTP_CREATED);
+        $this->assertEquals($result['code'], Response::HTTP_CREATED);
         $this->assertEquals('User successfuly followed.', $result['response']['data']);
     }
 
@@ -55,7 +55,7 @@ class FollowTest extends TestCase
 
         $result = $this->followService->getFollowers($user->id);
 
-        $this->assertTrue($result['code'] === Response::HTTP_OK);
+        $this->assertEquals($result['code'], Response::HTTP_OK);
         $this->assertCount(1, $result['response']['data']);
     }
 
@@ -71,7 +71,7 @@ class FollowTest extends TestCase
 
         $result = $this->followService->getFollowed($follower->id);
 
-        $this->assertTrue($result['code'] === Response::HTTP_OK);
+        $this->assertEquals($result['code'], Response::HTTP_OK);
         $this->assertCount(1, $result['response']['data']);
     }
 
@@ -89,7 +89,7 @@ class FollowTest extends TestCase
 
         $result = $this->followService->removeFollower($follower->id);
 
-        $this->assertTrue($result['code'] === Response::HTTP_OK);
+        $this->assertEquals($result['code'], Response::HTTP_OK);
         $this->assertEquals('The informed user is not your follower anymore.', $result['response']['data']);
     }
 
@@ -107,7 +107,7 @@ class FollowTest extends TestCase
 
         $result = $this->followService->stopFollowing($user->id);
 
-        $this->assertTrue($result['code'] === Response::HTTP_OK);
+        $this->assertEquals($result['code'], Response::HTTP_OK);
         $this->assertEquals('The informed user is not followed by you anymore.', $result['response']['data']);
     }
 
@@ -123,7 +123,7 @@ class FollowTest extends TestCase
 
         $result = $this->followService->createFollow($followDetails);
 
-        $this->assertTrue($result['code'] === Response::HTTP_NOT_FOUND);
+        $this->assertEquals($result['code'], Response::HTTP_NOT_FOUND);
         $this->assertEquals("User doesn't exists.", $result['response']['data']);
     }
 
@@ -145,7 +145,7 @@ class FollowTest extends TestCase
 
         $result = $this->followService->createFollow($followDetails);
 
-        $this->assertTrue($result['code'] === Response::HTTP_FORBIDDEN);
+        $this->assertEquals($result['code'], Response::HTTP_FORBIDDEN);
         $this->assertEquals('You already follow this user.', $result['response']['data']);
     }
 
@@ -157,7 +157,7 @@ class FollowTest extends TestCase
 
         $result = $this->followService->getFollowers(999);
 
-        $this->assertTrue($result['code'] === Response::HTTP_NOT_FOUND);
+        $this->assertEquals($result['code'], Response::HTTP_NOT_FOUND);
         $this->assertEquals("User doesn't exists.", $result['response']['data']);
     }
 
@@ -169,7 +169,7 @@ class FollowTest extends TestCase
 
         $result = $this->followService->getFollowed(999);
 
-        $this->assertTrue($result['code'] === Response::HTTP_NOT_FOUND);
+        $this->assertEquals($result['code'], Response::HTTP_NOT_FOUND);
         $this->assertEquals("User doesn't exists.", $result['response']['data']);
     }
 
@@ -181,7 +181,7 @@ class FollowTest extends TestCase
 
         $result = $this->followService->removeFollower(999);
 
-        $this->assertTrue($result['code'] === Response::HTTP_NOT_FOUND);
+        $this->assertEquals($result['code'], Response::HTTP_NOT_FOUND);
         $this->assertEquals("User doesn't exists.", $result['response']['data']);
     }
 
@@ -194,7 +194,7 @@ class FollowTest extends TestCase
 
         $result = $this->followService->removeFollower($secondUser->id);
 
-        $this->assertTrue($result['code'] === Response::HTTP_BAD_REQUEST);
+        $this->assertEquals($result['code'], Response::HTTP_BAD_REQUEST);
         $this->assertEquals("This user doesn't follow you.", $result['response']['data']);
     }
 
@@ -206,7 +206,7 @@ class FollowTest extends TestCase
 
         $result = $this->followService->stopFollowing(999);
 
-        $this->assertTrue($result['code'] === Response::HTTP_NOT_FOUND);
+        $this->assertEquals($result['code'], Response::HTTP_NOT_FOUND);
         $this->assertEquals("User doesn't exists.", $result['response']['data']);
     }
 
@@ -219,7 +219,7 @@ class FollowTest extends TestCase
 
         $result = $this->followService->stopFollowing($secondUser->id);
 
-        $this->assertTrue($result['code'] === Response::HTTP_BAD_REQUEST);
+        $this->assertEquals($result['code'], Response::HTTP_BAD_REQUEST);
         $this->assertEquals("You don't follow this user.", $result['response']['data']);
     }
 }
